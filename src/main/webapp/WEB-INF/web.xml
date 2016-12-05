@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID"
+         version="2.5">
+    <display-name>registro</display-name>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:configuraciones/applicationcontext-configuration.xml
+        </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>defaultHtmlEscape</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/classes/log4j.properties</param-value>
+    </context-param>
+
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>inei-reg</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                classpath:configuraciones/applicationcontext-servlet.xml
+            </param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>inei-reg</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>inei-reg</servlet-name>
+        <url-pattern>/mgmt/*</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error.html</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.html</location>
+    </error-page>
+</web-app>
